@@ -33,18 +33,18 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/api/signUp", "/api/login", "/wallet/**", "/api/refreshToken", "/swagger-ui/**",
-                        "/v3/api-docs/**",
-                        "/h2-console/**")
-                .permitAll()
-                .and()
-                .authorizeHttpRequests().requestMatchers("/wallet/**")
-                .authenticated().and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+        return http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/api/signUp", "/api/login", "/wallet/**", "/api/refreshToken", "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/h2-console/**",
+                                "/actuator/**",
+                                "/wallet/**")
+                        .permitAll())
+                .authorizeHttpRequests(requests -> requests.requestMatchers("/walleet/**")
+                        .authenticated())
+                .sessionManagement(management -> management
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

@@ -1,6 +1,8 @@
 package com.chapur.services.exception;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.extern.slf4j.Slf4j;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -21,9 +23,8 @@ import java.util.Date;
 import static org.springframework.http.HttpStatus.*;
 
 @RestControllerAdvice
+@Slf4j
 public class ExceptionHandling implements ErrorController {
-
-    private final Logger logger = LoggerFactory.getLogger(ExceptionHandling.class);
 
     private static final String ACCOUNT_LOCKED = "Your account has been locked. Please contact administration";
     private static final String METHOD_IS_NOT_ALLOWED = "This request method is not allowed on this endpoint. Please send a '%s' request";
@@ -34,44 +35,51 @@ public class ExceptionHandling implements ErrorController {
     private static final String NOT_ENOUGH_PERMISSION = "You do not have enough permission";
     public static final String ERROR_PATH = "/error";
 
-    private ResponseEntity<HttpResponse> createHttpResponse(HttpStatus httpStatus, String message) {
+    private ResponseEntity<HttpResponse> createHttpResponse(HttpStatus httpStatus, String message, Exception exception) {
+        log.error(exception.getMessage(), exception);
+
         return new ResponseEntity<>(new HttpResponse(new Date(), httpStatus.value(),
                 httpStatus, httpStatus.getReasonPhrase().toUpperCase(), message), httpStatus);
     }
 
     @ExceptionHandler(DisabledException.class)
-    public ResponseEntity<HttpResponse> accountDisabledException() {
-        return createHttpResponse(BAD_REQUEST, ACCOUNT_DISABLED);
+    public ResponseEntity<HttpResponse> accountDisabledException(DisabledException exception) {
+        return createHttpResponse(BAD_REQUEST, ACCOUNT_DISABLED, exception);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<HttpResponse> exception(Exception exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getClass() + ": " + exception.getMessage(), exception);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<HttpResponse> badCredentialsException() {
-        return createHttpResponse(BAD_REQUEST, INCORRECT_CREDENTIALS);
+    public ResponseEntity<HttpResponse> badCredentialsException(BadCredentialsException exception) {
+        return createHttpResponse(BAD_REQUEST, INCORRECT_CREDENTIALS, exception);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<HttpResponse> accessDeniedException() {
-        return createHttpResponse(FORBIDDEN, NOT_ENOUGH_PERMISSION);
+    public ResponseEntity<HttpResponse> accessDeniedException(AccessDeniedException exception) {
+        return createHttpResponse(FORBIDDEN, NOT_ENOUGH_PERMISSION, exception);
     }
 
     @ExceptionHandler(LockedException.class)
-    public ResponseEntity<HttpResponse> lockedException() {
-        return createHttpResponse(UNAUTHORIZED, ACCOUNT_LOCKED);
+    public ResponseEntity<HttpResponse> lockedException(LockedException exception) {
+        return createHttpResponse(UNAUTHORIZED, ACCOUNT_LOCKED, exception);
     }
 
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<HttpResponse> tokenExpiredException(ExpiredJwtException exception) {
-        return createHttpResponse(UNAUTHORIZED, exception.getMessage());
+        return createHttpResponse(UNAUTHORIZED, exception.getMessage(), exception);
     }
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<HttpResponse> IOException(IOException exception) {
-        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+        return createHttpResponse(BAD_REQUEST, exception.getMessage(), exception);
     }
 
     @ExceptionHandler(GenericException.class)
     public ResponseEntity<HttpResponse> genericException(GenericException exception) {
-        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+        return createHttpResponse(BAD_REQUEST, exception.getMessage(), exception);
     }
 
     public String getErrorPath() {
