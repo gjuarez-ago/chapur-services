@@ -1,4 +1,4 @@
-package com.chapur.services.Utils;
+package com.chapur.services.utils;
 
 /**
  * The interface Validation security.
@@ -7,30 +7,36 @@ public interface ValidationSecurity {
     /**
      * The interface Send message.
      */
-    interface sendMessage{};
+    interface sendMessage {
+    };
 
     /**
      * The interface Validate verification code.
      */
-    interface validateVerificationCode{}
+    interface validateVerificationCode {
+    }
 
     /**
      * The interface Assign pin.
      */
-    interface assignPin {}
+    interface assignPin {
+    }
 
     /**
      * The interface Validate pin.
      */
-    interface validatePin{}
+    interface validatePin {
+    }
 
     /**
      * The interface Edit pin.
      */
-    interface editPin{}
+    interface editPin {
+    }
 
     /**
      * The interface Add pin log.
      */
-    interface addPinLog{}
+    interface addPinLog {
+    }
 }

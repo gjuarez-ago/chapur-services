@@ -5,61 +5,61 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Service
 @Slf4j
 public class SecurityServiceImpl implements ISecurityService {
 
+    private final int STACK_TRACE_METHOD_INDEX = 1;
 
-    private final int STACK_TRACE_METHOD_INDEX =1;
-    String methodName ;
+    String methodName;
+
     @Override
     public String getClientBeneficiaries(String clientId) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: "+methodName);
-        return  "{\"methodName\":\""+methodName+"\"}";
+        log.info("Executing Method: " + methodName);
+        return "{\"methodName\":\"" + methodName + "\"}";
     }
 
     @Override
     public String generateVerificationCode(String clientId) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: "+methodName);
-        return "{\"methodName\":\""+methodName+"\"}";
+        log.info("Executing Method: " + methodName);
+        return "{\"methodName\":\"" + methodName + "\"}";
     }
 
     @Override
     public String sendMessage(String clientId, String contactMethod, String messageType, String messageContent) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: "+methodName);
-        return  "{\"methodName\":\""+methodName+"\"}";
+        log.info("Executing Method: " + methodName);
+        return "{\"methodName\":\"" + methodName + "\"}";
     }
 
     @Override
     public String validateVerificationCode(String clientId,String verificationCode) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: "+methodName);
-        return  "{\"methodName\":\""+methodName+"\"}";
+        log.info("Executing Method: " + methodName);
+        return "{\"methodName\":\"" + methodName + "\"}";
     }
 
     @Override
     public String assignPin(String pin, String clientId, String cardId) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: "+methodName);
-        return  "{\"methodName\":\""+methodName+"\"}";
+        log.info("Executing Method: " + methodName);
+        return "{\"methodName\":\"" + methodName + "\"}";
     }
 
     @Override
     public String validatePin(String pin, String clientId, String cardId) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: "+methodName);
-        return  "{\"methodName\":\""+methodName+"\"}";
+        log.info("Executing Method: " + methodName);
+        return "{\"methodName\":\"" + methodName + "\"}";
     }
 
     @Override
@@ -74,15 +74,16 @@ public class SecurityServiceImpl implements ISecurityService {
     public String editPin(String newPin, String clientId, String cardId) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: "+methodName);
-        return  "{\"methodName\":\""+methodName+"\"}";
+        log.info("Executing Method: " + methodName);
+        return "{\"methodName\":\"" + methodName + "\"}";
     }
 
     @Override
-    public String addPinLog(String clientId, String cardId, String movementType, LocalDateTime date, String user, String source) {
+    public String addPinLog(String clientId, String cardId, String movementType, LocalDateTime date, String user,
+            String source) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: "+methodName);
-        return  "{\"methodName\":\""+methodName+"\"}";
+        log.info("Executing Method: " + methodName);
+        return "{\"methodName\":\"" + methodName + "\"}";
     }
 }
