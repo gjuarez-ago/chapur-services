@@ -9,8 +9,6 @@ import com.chapur.services.models.migration.ReqBody;
 import com.chapur.services.service.IChapurService;
 import com.chapur.services.service.IRoutingService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;

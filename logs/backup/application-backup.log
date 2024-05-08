@@ -80,3 +80,27 @@
 2024-04-24 17:56:33,124 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-04-24 17:56:33,128 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2024-04-24 17:56:33,133 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-05-08 10:54:07,059 [main] INFO  c.c.services.ServicesApplication - Starting ServicesApplication using Java 17.0.10 with PID 22708 (C:\Users\Gabriel Juárez\Documents\GitHub\chapur-services\target\classes started by Gabriel Juárez in C:\Users\Gabriel Juárez\Documents\GitHub\chapur-services)
+2024-05-08 10:54:07,073 [main] INFO  c.c.services.ServicesApplication - The following 1 profile is active: "dev"
+2024-05-08 10:54:08,559 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-08 10:54:08,690 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 112 ms. Found 2 JPA repository interfaces.
+2024-05-08 10:54:09,733 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8010 (http)
+2024-05-08 10:54:09,756 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-05-08 10:54:09,758 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.4]
+2024-05-08 10:54:09,954 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-05-08 10:54:09,957 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2826 ms
+2024-05-08 10:54:10,188 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-05-08 10:54:10,462 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2024-05-08 10:54:10,467 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-05-08 10:54:10,487 [main] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2024-05-08 10:54:10,713 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-08 10:54:10,809 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.1.6.Final
+2024-05-08 10:54:11,039 [main] WARN  org.hibernate.orm.deprecation - HHH90000021: Encountered deprecated setting [javax.persistence.sharedCache.mode], use [jakarta.persistence.sharedCache.mode] instead
+2024-05-08 10:54:11,262 [main] INFO  SQL dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2024-05-08 10:54:12,426 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-05-08 10:54:12,442 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-08 10:54:13,325 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-05-08 10:54:15,338 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 2 endpoint(s) beneath base path '/actuator'
+2024-05-08 10:54:15,470 [main] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@38224635, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7385a72f, org.springframework.security.web.context.SecurityContextHolderFilter@20331c8e, org.springframework.security.web.header.HeaderWriterFilter@22decfa2, org.springframework.security.web.authentication.logout.LogoutFilter@1ab780fd, com.chapur.services.filter.JwtAuthFilter@24b4f4a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1b6e32ee, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@798d8247, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5ff12345, org.springframework.security.web.session.SessionManagementFilter@14a5d7ee, org.springframework.security.web.access.ExceptionTranslationFilter@1737834, org.springframework.security.web.access.intercept.AuthorizationFilter@2a3c3a04]
+2024-05-08 10:54:16,427 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8010 (http) with context path ''
+2024-05-08 10:54:16,473 [main] INFO  c.c.services.ServicesApplication - Started ServicesApplication in 9.858 seconds (process running for 10.593)

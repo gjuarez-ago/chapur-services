@@ -36,3 +36,5 @@ build/
 logs/
 logs/*.log
 logs/backup/*.log
+/logs/*.log
+logs/application.log
