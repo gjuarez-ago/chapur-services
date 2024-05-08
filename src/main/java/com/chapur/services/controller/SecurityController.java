@@ -2,7 +2,7 @@ package com.chapur.services.controller;
 
 import com.chapur.services.Utils.ValidationSecurity;
 import com.chapur.services.exception.GenericException;
-import com.chapur.services.models.ReqBodySecurity;
+import com.chapur.services.models.*;
 import com.chapur.services.service.impl.SecurityServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,11 +68,12 @@ public class SecurityController {
         return securityService.generateVerificationCode(clientId);
     }
 
+
     /**
      * Send message string.
      *
-     * @param clientId        the client id
-     * @param reqBodySecurity the req body security
+     * @param clientId the client id
+     * @param reqBody  the req body
      * @return the string
      * @throws GenericException                the generic exception
      * @throws MethodArgumentNotValidException the method argument not valid exception
@@ -80,108 +81,109 @@ public class SecurityController {
      */
     @PostMapping(value="/send-message/{clientId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String sendMessage(@PathVariable("clientId") String clientId,
-                              @Validated(ValidationSecurity.sendMessage.class) @RequestBody ReqBodySecurity reqBodySecurity)
+                              @Validated(ValidationSecurity.sendMessage.class) @RequestBody SendMessageRequest reqBody)
             throws GenericException, MethodArgumentNotValidException,IllegalStateException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: "+methodName);
-        return securityService.sendMessage(reqBodySecurity.getClientId(), reqBodySecurity.getContactMethod(),
-                                            reqBodySecurity.getMessageType(),reqBodySecurity.getMessageContent());
+        return securityService.sendMessage(reqBody.getClientId(), reqBody.getContactMethod(),
+                                            reqBody.getMessageType(),reqBody.getMessageContent());
     }
+
 
     /**
      * Validate verification code string.
      *
-     * @param reqBodySecurity the req body security
+     * @param reqBody the req body
      * @return the string
      * @throws GenericException the generic exception
      */
     @PostMapping(value="/validate-verification-code", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String validateVerificationCode( @Validated(ValidationSecurity.validateVerificationCode.class) @RequestBody ReqBodySecurity reqBodySecurity) throws GenericException {
+    public String validateVerificationCode(@Validated @RequestBody ValidateVerificationCodeRequest reqBody) throws GenericException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: "+methodName);
-        return  securityService.validateVerificationCode(reqBodySecurity.getVerificationCode());
+        return  securityService.validateVerificationCode(reqBody.getClientId(), reqBody.getLastFourDigits());
     }
 
     /**
      * Assign pin string.
      *
-     * @param reqBodySecurity the req body security
+     * @param reqBody the req body security
      * @return the string
      * @throws GenericException the generic exception
      */
     @PostMapping(value="/assign-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String assignPin(@Validated(ValidationSecurity.assignPin.class) @RequestBody ReqBodySecurity reqBodySecurity) throws GenericException {
+    public String assignPin(@Validated(ValidationSecurity.assignPin.class) @RequestBody PinFormRequest reqBody) throws GenericException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: "+methodName);
-        return securityService.assignPin(reqBodySecurity.getPin(),reqBodySecurity.getClientId(),reqBodySecurity.getCardId());
+        return securityService.assignPin(reqBody.getPin(),reqBody.getClientId(),reqBody.getCardId());
     }
 
     /**
      * Validate pin string.
      *
-     * @param reqBodySecurity the req body security
+     * @param reqBody the req body security
      * @return the string
      * @throws GenericException the generic exception
      */
     @PostMapping(value="/validate-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String validatePin(@Validated(ValidationSecurity.validatePin.class) @RequestBody ReqBodySecurity reqBodySecurity) throws GenericException {
+    public String validatePin(@Validated(ValidationSecurity.validatePin.class) @RequestBody PinFormRequest reqBody) throws GenericException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: "+methodName);
-        return  securityService.validatePin(reqBodySecurity.getPin(),reqBodySecurity.getClientId(),reqBodySecurity.getCardId());
+        return  securityService.validatePin(reqBody.getPin(),reqBody.getClientId(),reqBody.getCardId());
     }
 
-//    @PostMapping(value="/get-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public String getPin(@RequestBody ReqBodySecurity reqBodySecurity) throws GenericException {
-//        methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-//        log.info("Executing endpoint method: "+methodName+" from class: "+getClass().getName());
-//        String response = methodName;
-//        return  response;
-//    }
+    @GetMapping(value="/get-pin/{clientId}/{lastFourDigits}",  produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getPin(@PathVariable("clientId")String clientId,@PathVariable("lastFourDigits")String lastFourDigits ) throws GenericException {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
+        log.info("Executing Method: "+methodName);
+        return  securityService.getPin(clientId,lastFourDigits);
+    }
 
     /**
      * Edit pin string.
      *
-     * @param reqBodySecurity the req body security
+     * @param reqBody the req body security
      * @return the string
      * @throws GenericException the generic exception
      */
     @PostMapping(value="/edit-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String editPin(@Validated(ValidationSecurity.editPin.class) @RequestBody ReqBodySecurity reqBodySecurity) throws GenericException {
+    public String editPin(@Validated(ValidationSecurity.editPin.class) @RequestBody PinFormRequest reqBody) throws GenericException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: "+methodName);
-        return securityService.editPin(reqBodySecurity.getPin(),reqBodySecurity.getClientId(),reqBodySecurity.getCardId());
+        return securityService.editPin(reqBody.getPin(),reqBody.getClientId(),reqBody.getCardId());
     }
 
     /**
      * Add pin log string.
      *
-     * @param reqBodySecurity the req body security
+     * @param reqBody the req body security
      * @return the string
      * @throws GenericException the generic exception
      */
     @PostMapping(value="/add-pin-log", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String addPinLog(@Validated(ValidationSecurity.addPinLog.class) @RequestBody ReqBodySecurity reqBodySecurity) throws GenericException {
+    public String addPinLog(@Validated(ValidationSecurity.addPinLog.class) @RequestBody PinLogRequest reqBody) throws GenericException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: "+methodName);
         String response = "{\"methodName\":\""+methodName+"\"}";
-        return  securityService.addPinLog(reqBodySecurity.getClientId(),
-                                            reqBodySecurity.getCardId(),
-                                            reqBodySecurity.getMovementType(),
+        return  securityService.addPinLog(reqBody.getClientId(),
+                                            reqBody.getCardId(),
+                                            reqBody.getMovementType(),
                                             LocalDateTime.now(),
-                                            reqBodySecurity.getUser(),
-                                            reqBodySecurity.getSource());
+                                            reqBody.getUser(),
+                                            reqBody.getSource());
     }
 
 

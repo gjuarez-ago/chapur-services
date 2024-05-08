@@ -39,7 +39,7 @@ public class SecurityServiceImpl implements ISecurityService {
     }
 
     @Override
-    public String validateVerificationCode(String verificationCode) {
+    public String validateVerificationCode(String clientId,String verificationCode) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: "+methodName);
@@ -56,6 +56,14 @@ public class SecurityServiceImpl implements ISecurityService {
 
     @Override
     public String validatePin(String pin, String clientId, String cardId) {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
+        log.info("Executing Method: "+methodName);
+        return  "{\"methodName\":\""+methodName+"\"}";
+    }
+
+    @Override
+    public String getPin(String clientId, String lastFourDigits) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: "+methodName);
