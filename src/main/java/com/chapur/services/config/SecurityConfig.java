@@ -39,6 +39,7 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/h2-console/**",
                                 "/actuator/**",
+                                "/api/security/**",
                                 "/wallet/**")
                         .permitAll())
                 .authorizeHttpRequests(requests -> requests.requestMatchers("/walleet/**")

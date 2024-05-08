@@ -3,6 +3,7 @@ package com.chapur.services.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.springframework.http.MediaType;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class WalletController {
      * @return un mensaje inidicando el estatus
      * @since 1.0
      */
-    @GetMapping("/get-all-services")
+    @GetMapping(value = "/get-all-services", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CreateServiceDTO>> getAllServicesApp() throws Exception {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
     }
@@ -79,6 +80,15 @@ public class WalletController {
         return response(HttpStatus.OK, "Actualizado con exito");
     }
 
+    /**
+     * <p>
+     * Método para realizar la eliminación
+     * </p>
+     * 
+     * @param id del servicio
+     * @return un mensaje inidicando el estatus
+     * @since 1.0
+     */
     private ResponseEntity<HttpResponse> response(HttpStatus httpStatus, String message) {
         return new ResponseEntity<>(
                 new HttpResponse(new Date(), httpStatus.value(), httpStatus, httpStatus.getReasonPhrase().toUpperCase(),
