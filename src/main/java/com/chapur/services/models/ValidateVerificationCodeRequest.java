@@ -14,8 +14,8 @@ public class ValidateVerificationCodeRequest {
     @JsonProperty("clientId")
     String clientId;
 
-    @NotNull(message = "lastFourDigits is mandatory")
-    @JsonProperty("lastFourDigits")
-    String lastFourDigits;
+    @NotNull(message = "verificationCode is mandatory")
+    @JsonProperty("verificationCode")
+    String verificationCode;
 
 }

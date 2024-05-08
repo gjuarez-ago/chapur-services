@@ -1,9 +1,9 @@
 package com.chapur.services.controller;
 
-import com.chapur.services.Utils.ValidationSecurity;
 import com.chapur.services.exception.GenericException;
 import com.chapur.services.models.*;
 import com.chapur.services.service.impl.SecurityServiceImpl;
+import com.chapur.services.utils.ValidationSecurity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -81,7 +81,7 @@ public class SecurityController {
      */
     @PostMapping(value="/send-message/{clientId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String sendMessage(@PathVariable("clientId") String clientId,
-                              @Validated(ValidationSecurity.sendMessage.class) @RequestBody SendMessageRequest reqBody)
+                              @Validated @RequestBody SendMessageRequest reqBody)
             throws GenericException, MethodArgumentNotValidException,IllegalStateException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
@@ -105,7 +105,7 @@ public class SecurityController {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: "+methodName);
-        return  securityService.validateVerificationCode(reqBody.getClientId(), reqBody.getLastFourDigits());
+        return  securityService.validateVerificationCode(reqBody.getClientId(), reqBody.getVerificationCode());
     }
 
     /**
@@ -116,7 +116,7 @@ public class SecurityController {
      * @throws GenericException the generic exception
      */
     @PostMapping(value="/assign-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String assignPin(@Validated(ValidationSecurity.assignPin.class) @RequestBody PinFormRequest reqBody) throws GenericException {
+    public String assignPin(@Validated @RequestBody PinFormRequest reqBody) throws GenericException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -132,7 +132,7 @@ public class SecurityController {
      * @throws GenericException the generic exception
      */
     @PostMapping(value="/validate-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String validatePin(@Validated(ValidationSecurity.validatePin.class) @RequestBody PinFormRequest reqBody) throws GenericException {
+    public String validatePin(@Validated @RequestBody PinFormRequest reqBody) throws GenericException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -156,7 +156,7 @@ public class SecurityController {
      * @throws GenericException the generic exception
      */
     @PostMapping(value="/edit-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String editPin(@Validated(ValidationSecurity.editPin.class) @RequestBody PinFormRequest reqBody) throws GenericException {
+    public String editPin(@Validated @RequestBody PinFormRequest reqBody) throws GenericException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -172,7 +172,7 @@ public class SecurityController {
      * @throws GenericException the generic exception
      */
     @PostMapping(value="/add-pin-log", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String addPinLog(@Validated(ValidationSecurity.addPinLog.class) @RequestBody PinLogRequest reqBody) throws GenericException {
+    public String addPinLog(@Validated @RequestBody PinLogRequest reqBody) throws GenericException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
