@@ -1,4 +1,4 @@
-2024-04-24 10:20:36,925 [main] INFO  c.c.services.ServicesApplication - Starting ServicesApplication using Java 17.0.10 with PID 24888 (C:\Users\Gabriel Juï¿½rez\Downloads\services\target\classes started by Gabriel Juï¿½rez in C:\Users\Gabriel Juï¿½rez\Downloads\services)
+2024-04-24 10:20:36,925 [main] INFO  c.c.services.ServicesApplication - Starting ServicesApplication using Java 17.0.10 with PID 24888 (C:\Users\Gabriel Juárez\Downloads\services\target\classes started by Gabriel Juárez in C:\Users\Gabriel Juárez\Downloads\services)
 2024-04-24 10:20:36,972 [main] INFO  c.c.services.ServicesApplication - No active profile set, falling back to 1 default profile: "default"
 2024-04-24 10:20:40,002 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
 2024-04-24 10:20:40,195 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 172 ms. Found 2 JPA repository interfaces.
@@ -24,7 +24,7 @@
 2024-04-24 10:22:25,527 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
 2024-04-24 10:22:25,529 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2024-04-24 10:22:25,532 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
-2024-04-24 10:27:54,463 [main] INFO  c.c.services.ServicesApplication - Starting ServicesApplication using Java 17.0.10 with PID 19900 (C:\Users\Gabriel Juï¿½rez\Downloads\services\target\classes started by Gabriel Juï¿½rez in C:\Users\Gabriel Juï¿½rez\Downloads\services)
+2024-04-24 10:27:54,463 [main] INFO  c.c.services.ServicesApplication - Starting ServicesApplication using Java 17.0.10 with PID 19900 (C:\Users\Gabriel Juárez\Downloads\services\target\classes started by Gabriel Juárez in C:\Users\Gabriel Juárez\Downloads\services)
 2024-04-24 10:27:54,471 [main] INFO  c.c.services.ServicesApplication - No active profile set, falling back to 1 default profile: "default"
 2024-04-24 10:27:56,038 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
 2024-04-24 10:27:56,143 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 95 ms. Found 2 JPA repository interfaces.
