@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The type Product type config.
+ * The type ProductDTO type config.
  */
 @AllArgsConstructor
 @NoArgsConstructor
