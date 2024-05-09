@@ -5,7 +5,11 @@ import java.util.Date;
 import java.util.List;
 
 import com.chapur.services.exception.GenericException;
-import com.chapur.services.models.*;
+import com.chapur.services.models.HttpResponse;
+import com.chapur.services.models.CreateServiceDTO;
+import com.chapur.services.models.ProductTypeDTO;
+import com.chapur.services.models.ProductDTO;
+import com.chapur.services.models.ProductIdentityResponse;
 import com.chapur.services.service.IWalletService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +45,10 @@ public class WalletController {
 
     /**
      * <p>
-     * Método para realizar la eliminación
+     * Método para obtener todos los servicios Chapur
      * </p>
-     * 
-     * @param id del servicio
-     * @return un mensaje inidicando el estatus
+     *
+     * @return un mensaje indicando el estatus
      * @since 1.0
      */
     @GetMapping(value = "/get-all-services", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,25 +58,11 @@ public class WalletController {
 
     /**
      * <p>
-     * Método para realizar la eliminación
+     * Método para realizar la actualización de un servicio Chapur
      * </p>
      * 
      * @param id del servicio
-     * @return un mensaje inidicando el estatus
-     * @since 1.0
-     */
-    @PostMapping("/add-service")
-    private ResponseEntity<HttpResponse> createServiceApp(@RequestBody CreateServiceDTO entity) {
-        return response(HttpStatus.OK, "Agregado con exito");
-    }
-
-    /**
-     * <p>
-     * Método para realizar la eliminación
-     * </p>
-     * 
-     * @param id del servicio
-     * @return un mensaje inidicando el estatus
+     * @return un mensaje indicando el estatus
      * @since 1.0
      */
     @PutMapping("/update-service/{id}")
@@ -84,35 +73,33 @@ public class WalletController {
 
     /**
      * <p>
-     * Método para realizar la eliminación
+     * Método para obtener un servicio de acuerdo al id
      * </p>
-     * 
+     *
      * @param id del servicio
-     * @return un mensaje inidicando el estatus
+     * @return un mensaje indicando el estatus
      * @since 1.0
      */
-    @DeleteMapping("/delete-service/{id}")
-    public ResponseEntity<HttpResponse> deleteServiceApp(@PathVariable(value = "id") String id) {
-        return response(HttpStatus.OK, "Actualizado con exito");
+    @GetMapping(value = "/get-service/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CreateServiceDTO> getServiceWeb(@PathVariable(value = "id") String id) throws Exception {
+        return new ResponseEntity<>(new CreateServiceDTO(), HttpStatus.OK);
     }
 
     /**
      * Método para editar el tipo de producto.
      *
      * @param productTypeId id del tipo de producto
-     * @param productTypeRequest   informacion del tipo de producto
+     * @param productType   informacion del tipo de producto
      * @return mensaje indicando el estatus
      * @throws GenericException the generic exception
      */
-    @PostMapping(value= "/edit-product-type/{productTypeId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpResponse> editProductType(@PathVariable("productTypeId") Integer productTypeId, @RequestBody ProductTypeDTO productTypeRequest) throws GenericException {
+    @PutMapping(value= "/update-product-type/{productTypeId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<HttpResponse> updateProductTypeWeb(@PathVariable("productTypeId") Integer productTypeId,
+             @RequestBody ProductTypeDTO productType) throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
-        return walletService.editProductType(productTypeId, productTypeRequest.getTypeProduct(), productTypeRequest.getConfig().getShowProductName(),
-                productTypeRequest.getConfig().getShowImage(), productTypeRequest.getConfig().getShowColor(), productTypeRequest.getConfig().getShowFolio(),
-                productTypeRequest.getConfig().getShowBalance(), productTypeRequest.getConfig().getShowCode(), productTypeRequest.getConfig().getShowCountDownTimer(),
-                productTypeRequest.getConfig().getShowResumeAccount(), productTypeRequest.getConfig().getShowvigency(), productTypeRequest.getConfig().getShowMovement());
+        return walletService.updateProductTypeWeb(productType);
     }
 
     /**
@@ -122,11 +109,11 @@ public class WalletController {
      * @throws GenericException the generic exception
      */
     @GetMapping(value = "/list-all-product-types/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ProductTypeDTO>> getAllProductTypes() throws GenericException {
+    public ResponseEntity<List<ProductTypeDTO>> getAllProductTypesWeb() throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
-        return walletService.getAllProductTypes();
+        return walletService.getAllProductTypesWeb();
     }
 
     /**
@@ -137,11 +124,11 @@ public class WalletController {
      * @throws GenericException the generic exception
      */
     @GetMapping(value = "/get-product/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProductDTO getProduct(@PathVariable("productId") Integer productId) throws GenericException {
+    public ProductDTO getProductWeb(@PathVariable("productId") Integer productId) throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
-        return walletService.getProduct(productId);
+        return walletService.getProductWeb(productId);
     }
 
     /**
@@ -152,12 +139,11 @@ public class WalletController {
      * @throws GenericException the generic exception
      */
     @PostMapping(value= "/add-product/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpResponse> addProduct(@RequestBody ProductDTO product) throws GenericException {
+    public ResponseEntity<HttpResponse> addProductWeb(@RequestBody ProductDTO product) throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
-        return walletService.addProduct(product.getName(),product.getDescription(), product.getTypeProduct(),
-                product.getImage(), product.getReferenceColor());
+        return walletService.addProductWeb(product);
     }
 
     /**
@@ -168,13 +154,13 @@ public class WalletController {
      * @return mensaje indicando el estatus del proceso
      * @throws GenericException the generic exception
      */
-    @PostMapping(value= "/edit-product/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpResponse> editProduct(@PathVariable("productId") Integer productId, @RequestBody ProductDTO product) throws GenericException {
+    @PutMapping(value= "/update-product/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<HttpResponse> updateProductWeb(@PathVariable("productId") Integer productId,
+             @RequestBody ProductDTO product) throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
-        return walletService.editProduct(productId, product.getName(),product.getDescription(), product.getTypeProduct(),
-                product.getImage(), product.getReferenceColor());
+        return walletService.updateProductWeb(product);
     }
 
     /**
@@ -185,11 +171,11 @@ public class WalletController {
      * @throws GenericException the generic exception
      */
     @DeleteMapping(value = "/delete-product/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpResponse> deleteProduct(@PathVariable("productId") Integer productId) throws GenericException {
+    public ResponseEntity<HttpResponse> deleteProductWeb(@PathVariable("productId") Integer productId) throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
-        return walletService.deleteProduct(productId);
+        return walletService.deleteProductWeb(productId);
     }
 
     /**
@@ -200,11 +186,11 @@ public class WalletController {
      * @throws GenericException the generic exception
      */
     @GetMapping(value = "/products-list/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ProductDTO>> getProductsList(@PathVariable("clientId") Integer clientId) throws GenericException {
+    public ResponseEntity<List<ProductDTO>> getProductsListApp(@PathVariable("clientId") Integer clientId) throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
-        return walletService.getProductsList(clientId);
+        return walletService.getProductsListApp(clientId);
     }
 
     /**
@@ -217,11 +203,12 @@ public class WalletController {
      * @throws GenericException the generic exception
      */
     @GetMapping(value = "/product-detail/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProductDTO getProductDetail(@RequestBody Integer clientId, @RequestBody Integer productId, @RequestBody String productType) throws GenericException {
+    public ProductDTO getProductDetailApp(@RequestBody Integer clientId, @RequestBody Integer productId,
+            @RequestBody String productType) throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
-        return walletService.getProductDetail(clientId, productId, productType);
+        return walletService.getProductDetailApp(clientId, productId, productType);
     }
 
     /**
@@ -234,19 +221,19 @@ public class WalletController {
      * @throws GenericException the generic exception
      */
     @GetMapping(value = "/product-identity/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProductIdentityResponse getProductIdentity(@RequestBody Integer clientId, @RequestBody Integer productId, @RequestBody String productType) throws GenericException {
+    public ProductIdentityResponse getProductIdentityApp(@RequestBody Integer clientId,
+             @RequestBody Integer productId, @RequestBody String productType) throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
-        return walletService.getProductIdentity(clientId, productId, productType);
+        return walletService.getProductIdentityApp(clientId, productId, productType);
     }
 
     /**
      * <p>
-     * Método para realizar la eliminación
+     * Método para formar respuestas de los servicios
      * </p>
-     * 
-     * @param id del servicio
+     *
      * @return un mensaje inidicando el estatus
      * @since 1.0
      */
