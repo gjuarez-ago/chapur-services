@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ProductTypeRequest {
+public class ProductTypeDTO {
     @NotNull(message = "typeProductId is mandatory")
     @JsonProperty ("typeProductId")
     Integer typeProductId;

@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Product {
+public class ProductDTO {
     @NotNull(message = "productId is mandatory")
     @JsonProperty("productId")
     Integer productId;
