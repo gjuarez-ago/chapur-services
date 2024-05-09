@@ -1,12 +1,12 @@
 package com.chapur.services.service;
 
-import lombok.extern.slf4j.Slf4j;
+import com.chapur.services.exception.GenericException;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import java.time.LocalDate;
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Date;
+
 
 /**
  * The interface Security service.
@@ -28,7 +28,7 @@ public interface ISecurityService {
      * @param clientId the client id
      * @return the string
      */
-    String generateVerificationCode(String clientId);
+    String generateVerificationCode(String clientId) ;
 
     /**
      * Send message string.
@@ -58,7 +58,7 @@ public interface ISecurityService {
      * @param cardId   the card id
      * @return the string
      */
-    String assignPin(String pin, String clientId, String cardId);
+    String assignPin(String pin, String clientId, String cardId) ;
 
     /**
      * Validate pin string.
@@ -77,7 +77,7 @@ public interface ISecurityService {
      * @param lastFourDigits the last four digits
      * @return the pin
      */
-    String getPin(String clientId, String lastFourDigits);
+    String getPin(String clientId, String lastFourDigits) ;
 
     /**
      * Edit pin string.

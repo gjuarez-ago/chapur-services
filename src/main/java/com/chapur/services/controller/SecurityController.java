@@ -3,7 +3,6 @@ package com.chapur.services.controller;
 import com.chapur.services.exception.GenericException;
 import com.chapur.services.models.*;
 import com.chapur.services.service.impl.SecurityServiceImpl;
-import com.chapur.services.utils.ValidationSecurity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -42,7 +41,8 @@ public class SecurityController {
      * @throws GenericException regresa un json string con la informacion del error en caso de que se genera alguna exception
      */
     @GetMapping(value="/client-beneficiaries/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getClientBeneficiaries(@PathVariable("clientId") String clientId) throws GenericException {
+    public String getClientBeneficiaries(@PathVariable("clientId") String clientId)
+            throws GenericException, MethodArgumentNotValidException,IllegalStateException{
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -60,7 +60,8 @@ public class SecurityController {
      * @throws GenericException the generic exception
      */
     @PostMapping(value="/generate-verification-code/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String generateVerificationCode(@PathVariable("clientId") String clientId) throws GenericException {
+    public String generateVerificationCode(@PathVariable("clientId") String clientId)
+            throws GenericException, MethodArgumentNotValidException,IllegalStateException{
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -100,7 +101,8 @@ public class SecurityController {
      * @throws GenericException the generic exception
      */
     @PostMapping(value="/validate-verification-code", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String validateVerificationCode(@Validated @RequestBody ValidateVerificationCodeRequest reqBody) throws GenericException {
+    public String validateVerificationCode(@Validated @RequestBody ValidateVerificationCodeRequest reqBody)
+            throws GenericException, MethodArgumentNotValidException,IllegalStateException{
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -116,7 +118,8 @@ public class SecurityController {
      * @throws GenericException the generic exception
      */
     @PostMapping(value="/assign-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String assignPin(@Validated @RequestBody PinFormRequest reqBody) throws GenericException {
+    public String assignPin(@Validated @RequestBody PinFormRequest reqBody)
+            throws GenericException, MethodArgumentNotValidException,IllegalStateException{
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -132,7 +135,8 @@ public class SecurityController {
      * @throws GenericException the generic exception
      */
     @PostMapping(value="/validate-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String validatePin(@Validated @RequestBody PinFormRequest reqBody) throws GenericException {
+    public String validatePin(@Validated @RequestBody PinFormRequest reqBody)
+            throws GenericException, MethodArgumentNotValidException,IllegalStateException{
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -149,7 +153,8 @@ public class SecurityController {
      * @throws GenericException the generic exception
      */
     @GetMapping(value="/get-pin/{clientId}/{lastFourDigits}",  produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getPin(@PathVariable("clientId")String clientId,@PathVariable("lastFourDigits")String lastFourDigits ) throws GenericException {
+    public String getPin(@PathVariable("clientId")String clientId,@PathVariable("lastFourDigits")String lastFourDigits )
+            throws GenericException, MethodArgumentNotValidException,IllegalStateException{
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: "+methodName);
@@ -164,7 +169,8 @@ public class SecurityController {
      * @throws GenericException the generic exception
      */
     @PutMapping(value="/edit-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String editPin(@Validated @RequestBody PinFormRequest reqBody) throws GenericException {
+    public String editPin(@Validated @RequestBody PinFormRequest reqBody)
+            throws GenericException, MethodArgumentNotValidException,IllegalStateException{
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -180,7 +186,8 @@ public class SecurityController {
      * @throws GenericException the generic exception
      */
     @PostMapping(value="/add-pin-log", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String addPinLog(@Validated @RequestBody PinLogRequest reqBody) throws GenericException {
+    public String addPinLog(@Validated @RequestBody PinLogRequest reqBody)
+            throws GenericException, MethodArgumentNotValidException,IllegalStateException{
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
