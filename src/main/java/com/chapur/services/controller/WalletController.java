@@ -19,46 +19,38 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chapur.services.models.CreateServiceDTO;
 import com.chapur.services.models.HttpResponse;
 
+/**
+ * The type Wallet controller.
+ */
 @RestController
 @RequestMapping("/wallet")
 public class WalletController {
 
+
     /**
-     * <p>
-     * Método para realizar la eliminación
-     * </p>
-     * 
-     * @param id del servicio
-     * @return un mensaje inidicando el estatus
-     * @since 1.0
+     * Gets all services app.
+     *
+     * @return the all services app
+     * @throws Exception the exception
      */
     @GetMapping(value = "/get-all-services", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CreateServiceDTO>> getAllServicesApp() throws Exception {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
     }
 
-    /**
-     * <p>
-     * Método para realizar la eliminación
-     * </p>
-     * 
-     * @param id del servicio
-     * @return un mensaje inidicando el estatus
-     * @since 1.0
-     */
+
     @PostMapping("/add-service")
     private ResponseEntity<HttpResponse> createServiceApp(@RequestBody CreateServiceDTO entity) {
         return response(HttpStatus.OK, "Agregado con exito");
     }
 
+
     /**
-     * <p>
-     * Método para realizar la eliminación
-     * </p>
-     * 
-     * @param id del servicio
-     * @return un mensaje inidicando el estatus
-     * @since 1.0
+     * Update service app response entity.
+     *
+     * @param id     the id
+     * @param entity the entity
+     * @return the response entity
      */
     @PutMapping("/update-service/{id}")
     public ResponseEntity<HttpResponse> updateServiceApp(@PathVariable(value = "id") String id,
@@ -66,29 +58,19 @@ public class WalletController {
         return response(HttpStatus.OK, "Actualizado con exito");
     }
 
+
     /**
-     * <p>
-     * Método para realizar la eliminación
-     * </p>
-     * 
-     * @param id del servicio
-     * @return un mensaje inidicando el estatus
-     * @since 1.0
+     * Delete service app response entity.
+     *
+     * @param id the id
+     * @return the response entity
      */
     @DeleteMapping("/delete-service/{id}")
     public ResponseEntity<HttpResponse> deleteServiceApp(@PathVariable(value = "id") String id) {
         return response(HttpStatus.OK, "Actualizado con exito");
     }
 
-    /**
-     * <p>
-     * Método para realizar la eliminación
-     * </p>
-     * 
-     * @param id del servicio
-     * @return un mensaje inidicando el estatus
-     * @since 1.0
-     */
+
     private ResponseEntity<HttpResponse> response(HttpStatus httpStatus, String message) {
         return new ResponseEntity<>(
                 new HttpResponse(new Date(), httpStatus.value(), httpStatus, httpStatus.getReasonPhrase().toUpperCase(),

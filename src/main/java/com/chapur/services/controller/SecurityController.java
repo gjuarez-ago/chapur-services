@@ -155,7 +155,7 @@ public class SecurityController {
      * @return the string
      * @throws GenericException the generic exception
      */
-    @PostMapping(value="/edit-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value="/edit-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String editPin(@Validated @RequestBody PinFormRequest reqBody) throws GenericException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
