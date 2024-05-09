@@ -140,6 +140,14 @@ public class SecurityController {
         return  securityService.validatePin(reqBody.getPin(),reqBody.getClientId(),reqBody.getCardId());
     }
 
+    /**
+     * Gets pin.
+     *
+     * @param clientId       the client id
+     * @param lastFourDigits the last four digits
+     * @return the pin
+     * @throws GenericException the generic exception
+     */
     @GetMapping(value="/get-pin/{clientId}/{lastFourDigits}",  produces = MediaType.APPLICATION_JSON_VALUE)
     public String getPin(@PathVariable("clientId")String clientId,@PathVariable("lastFourDigits")String lastFourDigits ) throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();

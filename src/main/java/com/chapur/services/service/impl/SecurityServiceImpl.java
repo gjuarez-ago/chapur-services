@@ -6,12 +6,18 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+/**
+ * The type Security service.
+ */
 @Service
 @Slf4j
 public class SecurityServiceImpl implements ISecurityService {
 
     private final int STACK_TRACE_METHOD_INDEX = 1;
 
+    /**
+     * The Method name.
+     */
     String methodName;
 
     @Override
