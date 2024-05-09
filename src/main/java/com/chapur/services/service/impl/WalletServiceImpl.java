@@ -113,6 +113,19 @@ public class WalletServiceImpl implements IWalletService {
     }
 
     /**
+     * Obtiene la lista de todos los productos del sistema para desplegar en la web.
+     *
+     * @return la lista de productos del cliente
+     */
+    @Override
+    public ResponseEntity<List<ProductDTO>> getAllProductsWeb(){
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
+        log.info("Executing Method: " + methodName);
+        return new ResponseEntity<>(new ArrayList<ProductDTO>(), HttpStatus.OK);
+    }
+
+    /**
      * Obtiene la lista de productos por cliente para desplegar en la app.
      *
      * @param clientId el id del cliente

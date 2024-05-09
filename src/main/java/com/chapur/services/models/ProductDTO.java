@@ -96,6 +96,12 @@ public class ProductDTO {
     Date expedition;
 
     /**
+     * The Order.
+     */
+    @JsonProperty("order")
+    Integer order;
+
+    /**
      * The Config.
      */
     @JsonProperty("config")

@@ -179,6 +179,20 @@ public class WalletController {
     }
 
     /**
+     * Obtener todos los productos para la pagina web.
+     *
+     * @return Lista con todos los tipos de productos
+     * @throws GenericException the generic exception
+     */
+    @GetMapping(value = "/list-all-products/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ProductDTO>> getAllProductsWeb() throws GenericException {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
+        log.info("Executing Method: " + methodName);
+        return walletService.getAllProductsWeb();
+    }
+
+    /**
      * Obtener la lista de productos del cliente.
      *
      * @param clientId id del cliente

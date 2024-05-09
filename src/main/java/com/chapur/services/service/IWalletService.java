@@ -62,6 +62,13 @@ public interface IWalletService {
     ResponseEntity<HttpResponse> deleteProductWeb(Integer productId);
 
     /**
+     * Obtiene la lista de todos los productos del sistema para desplegar en la web.
+     *
+     * @return la lista de productos del cliente
+     */
+    ResponseEntity<List<ProductDTO>> getAllProductsWeb();
+
+    /**
      * Obtiene la lista de productos por cliente para desplegar en la app.
      *
      * @param clientId el id del cliente
