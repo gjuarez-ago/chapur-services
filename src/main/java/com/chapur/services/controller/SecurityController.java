@@ -3,13 +3,24 @@ package com.chapur.services.controller;
 
 import com.chapur.services.models.*;
 import com.chapur.services.service.impl.SecurityServiceImpl;
+import com.imasd.endec.IMDEndec;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.nio.charset.StandardCharsets;
+import java.security.CryptoPrimitive;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 /**
  * The type Security controller.
@@ -25,6 +36,11 @@ public class SecurityController {
      */
     @Autowired
     SecurityServiceImpl securityService;
+
+    private final String AES_IV= "12345678";
+    private final String AES_KEY ="1234567812345678";
+
+
 
     private final int STACK_TRACE_METHOD_INDEX=1;
     /**
@@ -195,6 +211,42 @@ public class SecurityController {
                                             LocalDateTime.now(),
                                             reqBody.getUser(),
                                             reqBody.getSource());
+    }
+
+    @GetMapping(value="/encrypt/{data}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String encrypt( @PathVariable("data") String data)
+            throws IllegalStateException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
+            IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
+        log.info("Executing Method: "+methodName);
+
+        IMDEndec cryptTool = new IMDEndec();
+        String encryptedData =  cryptTool.encrypt(data,AES_KEY,AES_IV);
+        String jsonResponse = "{" +
+                "\"encoded\":\""+encryptedData+"\"}";
+        return jsonResponse;
+
+    }
+
+    @GetMapping(value="/decrypt/{data}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String decrypt( @PathVariable("data") String data)
+            throws IllegalStateException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
+            IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
+        log.info("Executing Method: "+methodName);
+
+        IMDEndec cryptTool = new IMDEndec();
+//        String decoded = cryptTool.decrypt(data,AES_KEY,AES_IV);
+//        String jsonResponse = "{" +
+//                "\"decoded\":\""+decoded+"\"}";
+//
+//        return  jsonResponse;
+        return "shvbdfjl";
+
     }
 
 
