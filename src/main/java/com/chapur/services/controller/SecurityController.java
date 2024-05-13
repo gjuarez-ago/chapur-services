@@ -1,18 +1,22 @@
 package com.chapur.services.controller;
 
-import com.chapur.services.exception.GenericException;
-import com.chapur.services.models.ReqBodySecurity;
-import com.chapur.services.service.impl.SecurityServiceImpl;
-import com.chapur.services.utils.ValidationSecurity;
 
+import com.chapur.services.models.*;
+import com.chapur.services.service.impl.SecurityServiceImpl;
+import com.imasd.endec.IMDEndec;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+
 
 /**
  * The type Security controller.
@@ -22,180 +26,224 @@ import java.time.LocalDateTime;
 @Slf4j
 public class SecurityController {
 
+
     /**
      * The Security service.
      */
     @Autowired
     SecurityServiceImpl securityService;
 
-    private final int STACK_TRACE_METHOD_INDEX = 1;
+    private final String AES_IV= "12345678";
+    private final String AES_KEY ="1234567812345678";
+
+
+
+    private final int STACK_TRACE_METHOD_INDEX=1;
     /**
      * The Method name.
      */
-    String methodName;
+    String methodName ;
 
     /**
-     * Detalle tarjeta string.
+     * Gets client beneficiaries.
      *
-     * @param clientId Parametro que almacena el id del cliente
-     * @return response regresa el objeto de respuesta
-     * @throws GenericException regresa un json string con la informacion del error
-     *                          en caso de que se genera alguna exception
+     * @param clientId the client id
+     * @return the client beneficiaries
+     * @throws IllegalStateException the illegal state exception
      */
-    @GetMapping(value = "/client-beneficiaries/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getClientBeneficiaries(@PathVariable("clientId") String clientId) throws GenericException {
+    @GetMapping(value="/client-beneficiaries/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getClientBeneficiaries(@PathVariable("clientId") String clientId)
+            throws IllegalStateException{
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: " + methodName);
+        log.info("Executing Method: "+methodName);
         return securityService.getClientBeneficiaries(clientId);
 
     }
+
 
     /**
      * Generate verification code string.
      *
      * @param clientId the client id
      * @return the string
-     * @throws GenericException the generic exception
+     * @throws IllegalStateException the illegal state exception
      */
-    @PostMapping(value = "/generate-verification-code/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String generateVerificationCode(@PathVariable("clientId") String clientId) throws GenericException {
+    @PostMapping(value="/generate-verification-code/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String generateVerificationCode(@PathVariable("clientId") String clientId)
+            throws IllegalStateException{
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: " + methodName);
+        log.info("Executing Method: "+methodName);
         return securityService.generateVerificationCode(clientId);
     }
+
 
     /**
      * Send message string.
      *
-     * @param clientId        the client id
-     * @param reqBodySecurity the req body security
+     * @param clientId the client id
+     * @param reqBody  the req body
      * @return the string
-     * @throws GenericException                the generic exception
-     * @throws MethodArgumentNotValidException the method argument not valid
-     *                                         exception
-     * @throws IllegalStateException           the illegal state exception
+     * @throws IllegalStateException the illegal state exception
      */
-    @PostMapping(value = "/send-message/{clientId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value="/send-message/{clientId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String sendMessage(@PathVariable("clientId") String clientId,
-            @Validated(ValidationSecurity.sendMessage.class) @RequestBody ReqBodySecurity reqBodySecurity)
-            throws GenericException, MethodArgumentNotValidException, IllegalStateException {
+                              @Validated @RequestBody SendMessageRequest reqBody)
+            throws IllegalStateException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: " + methodName);
-        return securityService.sendMessage(reqBodySecurity.getClientId(), reqBodySecurity.getContactMethod(),
-                reqBodySecurity.getMessageType(), reqBodySecurity.getMessageContent());
+        log.info("Executing Method: "+methodName);
+        return securityService.sendMessage(clientId, reqBody.getContactMethod(),
+                                            reqBody.getMessageType(),reqBody.getMessageContent());
     }
+
 
     /**
      * Validate verification code string.
      *
-     * @param reqBodySecurity the req body security
+     * @param reqBody the req body
      * @return the string
-     * @throws GenericException the generic exception
+     * @throws IllegalStateException the illegal state exception
      */
-    @PostMapping(value = "/validate-verification-code", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String validateVerificationCode(
-            @Validated(ValidationSecurity.validateVerificationCode.class) @RequestBody ReqBodySecurity reqBodySecurity)
-            throws GenericException {
+    @PostMapping(value="/validate-verification-code", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String validateVerificationCode(@Validated @RequestBody ValidateVerificationCodeRequest reqBody)
+            throws IllegalStateException{
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: " + methodName);
-        return securityService.validateVerificationCode(reqBodySecurity.getVerificationCode());
+        log.info("Executing Method: "+methodName);
+        return  securityService.validateVerificationCode(reqBody.getClientId(), reqBody.getVerificationCode());
     }
 
     /**
      * Assign pin string.
      *
-     * @param reqBodySecurity the req body security
+     * @param reqBody the req body
      * @return the string
-     * @throws GenericException the generic exception
+     * @throws IllegalStateException the illegal state exception
      */
-    @PostMapping(value = "/assign-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String assignPin(@Validated(ValidationSecurity.assignPin.class) @RequestBody ReqBodySecurity reqBodySecurity)
-            throws GenericException {
+    @PostMapping(value="/assign-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String assignPin(@Validated @RequestBody PinFormRequest reqBody)
+            throws IllegalStateException{
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: " + methodName);
-        return securityService.assignPin(reqBodySecurity.getPin(), reqBodySecurity.getClientId(),
-                reqBodySecurity.getCardId());
+        log.info("Executing Method: "+methodName);
+        return securityService.assignPin(reqBody.getPin(),reqBody.getClientId(),reqBody.getCardId());
     }
 
     /**
      * Validate pin string.
      *
-     * @param reqBodySecurity the req body security
+     * @param reqBody the req body
      * @return the string
-     * @throws GenericException the generic exception
+     * @throws IllegalStateException the illegal state exception
      */
-    @PostMapping(value = "/validate-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String validatePin(
-            @Validated(ValidationSecurity.validatePin.class) @RequestBody ReqBodySecurity reqBodySecurity)
-            throws GenericException {
+    @PostMapping(value="/validate-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String validatePin(@Validated @RequestBody PinFormRequest reqBody)
+            throws IllegalStateException{
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: " + methodName);
-        return securityService.validatePin(reqBodySecurity.getPin(), reqBodySecurity.getClientId(),
-                reqBodySecurity.getCardId());
+        log.info("Executing Method: "+methodName);
+        return  securityService.validatePin(reqBody.getPin(),reqBody.getClientId(),reqBody.getCardId());
     }
 
-    // @PostMapping(value="/get-pin", consumes = MediaType.APPLICATION_JSON_VALUE,
-    // produces = MediaType.APPLICATION_JSON_VALUE)
-    // public String getPin(@RequestBody ReqBodySecurity reqBodySecurity) throws
-    // GenericException {
-    // methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-    // log.info("Executing endpoint method: "+methodName+" from class:
-    // "+getClass().getName());
-    // String response = methodName;
-    // return response;
-    // }
+    /**
+     * Gets pin.
+     *
+     * @param clientId       the client id
+     * @param lastFourDigits the last four digits
+     * @return the pin
+     * @throws IllegalStateException the illegal state exception
+     */
+    @GetMapping(value="/get-pin/{clientId}/{lastFourDigits}",  produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getPin(@PathVariable("clientId")String clientId,@PathVariable("lastFourDigits")String lastFourDigits )
+            throws IllegalStateException{
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
+        log.info("Executing Method: "+methodName);
+        return  securityService.getPin(clientId,lastFourDigits);
+    }
 
     /**
      * Edit pin string.
      *
-     * @param reqBodySecurity the req body security
+     * @param reqBody the req body
      * @return the string
-     * @throws GenericException the generic exception
+     * @throws IllegalStateException the illegal state exception
      */
-    @PostMapping(value = "/edit-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String editPin(@Validated(ValidationSecurity.editPin.class) @RequestBody ReqBodySecurity reqBodySecurity)
-            throws GenericException {
+    @PutMapping(value="/edit-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String editPin(@Validated @RequestBody PinFormRequest reqBody)
+            throws IllegalStateException{
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: " + methodName);
-        return securityService.editPin(reqBodySecurity.getPin(), reqBodySecurity.getClientId(),
-                reqBodySecurity.getCardId());
+        log.info("Executing Method: "+methodName);
+        return securityService.editPin(reqBody.getPin(),reqBody.getClientId(),reqBody.getCardId());
     }
 
     /**
      * Add pin log string.
      *
-     * @param reqBodySecurity the req body security
+     * @param reqBody the req body
      * @return the string
-     * @throws GenericException the generic exception
+     * @throws IllegalStateException the illegal state exception
      */
-    @PostMapping(value = "/add-pin-log", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String addPinLog(@Validated(ValidationSecurity.addPinLog.class) @RequestBody ReqBodySecurity reqBodySecurity)
-            throws GenericException {
+    @PostMapping(value="/add-pin-log", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String addPinLog(@Validated @RequestBody PinLogRequest reqBody)
+            throws IllegalStateException{
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
-        log.info("Executing Method: " + methodName);
-        String response = "{\"methodName\":\"" + methodName + "\"}";
-        return securityService.addPinLog(reqBodySecurity.getClientId(),
-                reqBodySecurity.getCardId(),
-                reqBodySecurity.getMovementType(),
-                LocalDateTime.now(),
-                reqBodySecurity.getUser(),
-                reqBodySecurity.getSource());
+        log.info("Executing Method: "+methodName);
+        return  securityService.addPinLog(reqBody.getClientId(),
+                                            reqBody.getCardId(),
+                                            reqBody.getMovementType(),
+                                            LocalDateTime.now(),
+                                            reqBody.getUser(),
+                                            reqBody.getSource());
     }
+
+    @GetMapping(value="/encrypt/{data}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String encrypt( @PathVariable("data") String data)
+            throws IllegalStateException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
+            IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
+        log.info("Executing Method: "+methodName);
+
+        IMDEndec cryptTool = new IMDEndec();
+        String encryptedData =  cryptTool.encrypt(data,AES_KEY,AES_IV);
+        String jsonResponse = "{" +
+                "\"encoded\":\""+encryptedData+"\"}";
+        return jsonResponse;
+
+    }
+
+    @PostMapping(value="/decrypt", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String decrypt( @RequestBody CryptoDataRequest dto)
+            throws IllegalStateException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
+            IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
+        log.info("Executing Method: "+methodName);
+
+        IMDEndec cryptTool = new IMDEndec();
+        String decoded = cryptTool.decrypt(dto.getData(),AES_KEY,AES_IV);
+        String jsonResponse = "{" +
+                "\"decoded\":\""+decoded+"\"}";
+
+        return  jsonResponse;
+
+
+    }
+
 
 }

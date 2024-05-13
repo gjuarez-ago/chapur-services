@@ -4,6 +4,9 @@ import java.util.Date;
 
 import lombok.Data;
 
+/**
+ * The type Create service dto.
+ */
 @Data
 public class CreateServiceDTO {
 
