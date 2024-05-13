@@ -6,26 +6,47 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The type Product summary.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class ProductSummary {
+    /**
+     * The Product id.
+     */
     @NotNull(message = "productId is mandatory")
     @JsonProperty("productId")
     Integer productId;
 
+    /**
+     * The Product type.
+     */
     @JsonProperty("productType")
     String productType;
 
+    /**
+     * The Previous balance.
+     */
     @JsonProperty("previousBalance")
     Float previousBalance;
 
+    /**
+     * The Balance return.
+     */
     @JsonProperty("balanceReturn")
     Float balanceReturn;
 
+    /**
+     * The Spent.
+     */
     @JsonProperty("spent")
     Float spent;
 
+    /**
+     * The Balance.
+     */
     @JsonProperty("balance")
     Float balance;
 

@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 
 import java.util.Date;
 
+/**
+ * The type Http response.
+ */
 @AllArgsConstructor
 @Getter
 @Setter
