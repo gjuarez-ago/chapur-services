@@ -7,12 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The type Product movements.
+ * The type Product movements response.
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ProductMovements {
+public class ProductMovementsResponse {
     /**
      * The Folio.
      */

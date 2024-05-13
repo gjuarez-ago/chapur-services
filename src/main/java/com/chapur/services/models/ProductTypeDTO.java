@@ -17,23 +17,23 @@ public class ProductTypeDTO {
     /**
      * The Type product id.
      */
-    @NotNull(message = "typeProductId is mandatory")
-    @JsonProperty ("typeProductId")
-    Integer typeProductId;
+    @NotNull(message = "productTypeId is mandatory")
+    @JsonProperty ("productTypeId")
+    Integer productTypeId;
 
     /**
      * The Type product.
      */
-    @NotNull(message = "typeProduct is mandatory")
-    @JsonProperty ("typeProduct")
-    String typeProduct;
+    @NotNull(message = "productType is mandatory")
+    @JsonProperty ("productType")
+    String productType;
 
     /**
      * The Config.
      */
     @NotNull(message = "config is mandatory")
     @JsonProperty ("config")
-    ProductTypeConfig config;
+    ProductTypeConfigDTO config;
 
 }
 

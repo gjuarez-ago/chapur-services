@@ -7,12 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The type Product summary.
+ * The type Product summary response.
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ProductSummary {
+public class ProductSummaryResponse {
     /**
      * The Product id.
      */

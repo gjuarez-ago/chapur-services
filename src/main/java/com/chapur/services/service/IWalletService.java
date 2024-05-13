@@ -1,34 +1,98 @@
 package com.chapur.services.service;
 
 import com.chapur.services.models.HttpResponse;
+import com.chapur.services.models.ProductTypeDTO;
 import com.chapur.services.models.ProductDTO;
 import com.chapur.services.models.ProductIdentityResponse;
-import com.chapur.services.models.ProductTypeDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * The interface Wallet service.
+ */
 @Component
 public interface IWalletService {
-    ResponseEntity<HttpResponse> editProductType(Integer productTypeId, String typeProduct, Boolean showProductName,
-                                                 Boolean showImage, Boolean showColor, Boolean showFolio, Boolean showBalance,
-                                                 Boolean showCode, Boolean showCountDownTimer, Boolean showResumeAccount,
-                                                 Boolean showvigency, Boolean showMovement);
+    /**
+     * Edita un tipo de producto para la página web.
+     *
+     * @param productType el tipo de producto
+     * @return mensaje indicando el estatus
+     */
+    ResponseEntity<HttpResponse> updateProductTypeWeb(ProductTypeDTO productType);
 
-    ResponseEntity<List<ProductTypeDTO>> getAllProductTypes();
+    /**
+     * Obtiene todos los tipos de productos para la página web.
+     *
+     * @return todos los tipos de productos
+     */
+    ResponseEntity<List<ProductTypeDTO>> getAllProductTypesWeb();
 
-    ProductDTO getProduct(Integer productId);
+    /**
+     * Obtiene un solo producto para desplegarlo en la página web.
+     *
+     * @param productId el id del producto
+     * @return el producto
+     */
+    ProductDTO getProductWeb(Integer productId);
 
-    ResponseEntity<HttpResponse> addProduct(String name, String description, String typeProduct, String image, String referenceColor);
+    /**
+     * Agrega un producto a través de la página web.
+     *
+     * @param product the product
+     * @return mensaje indicando el estatus
+     */
+    ResponseEntity<HttpResponse> addProductWeb(ProductDTO product);
 
-    ResponseEntity<HttpResponse> editProduct(Integer productId, String name, String description, String typeProduct, String image, String referenceColor);
+    /**
+     * Edita un producto a través de la página web.
+     *
+     * @param product the product
+     * @return mensaje indicando el estatus
+     */
+    ResponseEntity<HttpResponse> updateProductWeb(ProductDTO product);
 
-    ResponseEntity<HttpResponse> deleteProduct(Integer productId);
+    /**
+     * Elimina un producto a través de la página web.
+     *
+     * @param productId el id del producto
+     * @return mensaje indicando el estatus
+     */
+    ResponseEntity<HttpResponse> deleteProductWeb(Integer productId);
 
-    ResponseEntity<List<ProductDTO>> getProductsList(Integer clientId);
+    /**
+     * Obtiene la lista de todos los productos del sistema para desplegar en la web.
+     *
+     * @return la lista de productos del cliente
+     */
+    ResponseEntity<List<ProductDTO>> getAllProductsWeb();
 
-    ProductDTO getProductDetail(Integer clientId, Integer productId, String productType);
+    /**
+     * Obtiene la lista de productos por cliente para desplegar en la app.
+     *
+     * @param clientId el id del cliente
+     * @return la lista de productos del cliente
+     */
+    ResponseEntity<List<ProductDTO>> getProductsListApp(Integer clientId);
 
-    ProductIdentityResponse getProductIdentity(Integer clientId, Integer productId, String productType);
+    /**
+     * Obtiene el detalle de producto para desplegar en la app.
+     *
+     * @param clientId    el id del cliente
+     * @param productId   el id del producto
+     * @param productType el tipo de producto
+     * @return detalle del producto
+     */
+    ProductDTO getProductDetailApp(Integer clientId, Integer productId, String productType);
+
+    /**
+     * Obtiene los códigos del producto para desplegar en la app.
+     *
+     * @param clientId    el id del cliente
+     * @param productId   el id del producto
+     * @param productType el tipo de producto
+     * @return los códigos de identidad del producto
+     */
+    ProductIdentityResponse getProductIdentityApp(Integer clientId, Integer productId, String productType);
 }

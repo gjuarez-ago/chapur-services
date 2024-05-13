@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * The type Product dto.
@@ -39,9 +40,9 @@ public class ProductDTO {
     /**
      * The Type product.
      */
-    @NotNull(message = "typeProduct is mandatory")
-    @JsonProperty("typeProduct")
-    String typeProduct;
+    @NotNull(message = "productType is mandatory")
+    @JsonProperty("productType")
+    String productType;
 
     /**
      * The Product folio.
@@ -95,22 +96,28 @@ public class ProductDTO {
     Date expedition;
 
     /**
+     * The Order.
+     */
+    @JsonProperty("order")
+    Integer order;
+
+    /**
      * The Config.
      */
     @JsonProperty("config")
-    ProductTypeConfig config;
+    ProductTypeConfigDTO config;
 
     /**
      * The Summary.
      */
     @JsonProperty("summary")
-    ProductSummary summary;
+    ProductSummaryResponse summary;
 
     /**
      * The Movements.
      */
     @JsonProperty("movements")
-    ProductMovementsList movements;
+    List<ProductMovementsResponse> movements;
 
 }
 

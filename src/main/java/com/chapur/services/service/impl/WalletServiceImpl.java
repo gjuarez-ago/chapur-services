@@ -1,9 +1,9 @@
 package com.chapur.services.service.impl;
 
 import com.chapur.services.models.HttpResponse;
+import com.chapur.services.models.ProductTypeDTO;
 import com.chapur.services.models.ProductDTO;
 import com.chapur.services.models.ProductIdentityResponse;
-import com.chapur.services.models.ProductTypeDTO;
 import com.chapur.services.service.IWalletService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,27 +28,41 @@ public class WalletServiceImpl implements IWalletService {
      */
     String methodName;
 
+    /**
+     * Edita un tipo de producto para la página web.
+     *
+     * @param productType el tipo de producto
+     * @return mensaje indicando el estatus
+     */
     @Override
-    public ResponseEntity<HttpResponse> editProductType(Integer productTypeId, String typeProduct, Boolean showProductName,
-                                                        Boolean showImage, Boolean showColor, Boolean showFolio, Boolean showBalance,
-                                                        Boolean showCode, Boolean showCountDownTimer, Boolean showResumeAccount,
-                                                        Boolean showvigency, Boolean showMovement){
+    public ResponseEntity<HttpResponse> updateProductTypeWeb(ProductTypeDTO productType){
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
         return response(HttpStatus.OK, "Tipo de producto editado con exito");
     }
 
+    /**
+     * Obtiene todos los tipos de productos para la página web.
+     *
+     * @return todos los tipos de productos
+     */
     @Override
-    public ResponseEntity<List<ProductTypeDTO>> getAllProductTypes(){
+    public ResponseEntity<List<ProductTypeDTO>> getAllProductTypesWeb(){
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
         return new ResponseEntity<>(new ArrayList<ProductTypeDTO>(), HttpStatus.OK);
     }
 
+    /**
+     * Obtiene un solo producto para desplegarlo en la página web.
+     *
+     * @param productId el id del producto
+     * @return el producto
+     */
     @Override
-    public ProductDTO getProduct(Integer productId){
+    public ProductDTO getProductWeb(Integer productId){
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
@@ -56,40 +70,85 @@ public class WalletServiceImpl implements IWalletService {
         return product;
     }
 
+    /**
+     * Agrega un producto a través de la página web.
+     *
+     * @param product the product
+     * @return mensaje indicando el estatus
+     */
     @Override
-    public ResponseEntity<HttpResponse> addProduct(String name, String description, String typeProduct, String image, String referenceColor){
+    public ResponseEntity<HttpResponse> addProductWeb(ProductDTO product){
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
         return response(HttpStatus.OK, "Producto agregado con exito");
     }
 
+    /**
+     * Edita un producto a través de la página web.
+     *
+     * @param product the product
+     * @return mensaje indicando el estatus
+     */
     @Override
-    public ResponseEntity<HttpResponse> editProduct(Integer productId, String name, String description, String typeProduct, String image, String referenceColor){
+    public ResponseEntity<HttpResponse> updateProductWeb(ProductDTO product){
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
         return response(HttpStatus.OK, "Producto editado con exito");
     }
 
+    /**
+     * Elimina un producto a través de la página web.
+     *
+     * @param productId el id del producto
+     * @return mensaje indicando el estatus
+     */
     @Override
-    public ResponseEntity<HttpResponse> deleteProduct(Integer productId){
+    public ResponseEntity<HttpResponse> deleteProductWeb(Integer productId){
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
         return response(HttpStatus.OK, "Producto eliminado con exito");
     }
 
+    /**
+     * Obtiene la lista de todos los productos del sistema para desplegar en la web.
+     *
+     * @return la lista de productos del cliente
+     */
     @Override
-    public ResponseEntity<List<ProductDTO>> getProductsList(Integer clientId){
+    public ResponseEntity<List<ProductDTO>> getAllProductsWeb(){
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
         return new ResponseEntity<>(new ArrayList<ProductDTO>(), HttpStatus.OK);
     }
 
+    /**
+     * Obtiene la lista de productos por cliente para desplegar en la app.
+     *
+     * @param clientId el id del cliente
+     * @return la lista de productos del cliente
+     */
     @Override
-    public ProductDTO getProductDetail(Integer clientId, Integer productId, String productType){
+    public ResponseEntity<List<ProductDTO>> getProductsListApp(Integer clientId){
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
+        log.info("Executing Method: " + methodName);
+        return new ResponseEntity<>(new ArrayList<ProductDTO>(), HttpStatus.OK);
+    }
+
+    /**
+     * Obtiene el detalle de producto para desplegar en la app.
+     *
+     * @param clientId    el id del cliente
+     * @param productId   el id del producto
+     * @param productType el tipo de producto
+     * @return detalle del producto
+     */
+    @Override
+    public ProductDTO getProductDetailApp(Integer clientId, Integer productId, String productType){
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
@@ -97,8 +156,16 @@ public class WalletServiceImpl implements IWalletService {
         return product;
     }
 
+    /**
+     * Obtiene los códigos del producto para desplegar en la app.
+     *
+     * @param clientId    el id del cliente
+     * @param productId   el id del producto
+     * @param productType el tipo de producto
+     * @return los códigos de identidad del producto
+     */
     @Override
-    public ProductIdentityResponse getProductIdentity(Integer clientId, Integer productId, String productType){
+    public ProductIdentityResponse getProductIdentityApp(Integer clientId, Integer productId, String productType){
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
