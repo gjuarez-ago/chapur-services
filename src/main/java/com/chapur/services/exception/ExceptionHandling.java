@@ -18,7 +18,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.chapur.services.models.HttpResponse;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import static org.springframework.http.HttpStatus.*;
@@ -156,6 +162,36 @@ public class ExceptionHandling implements ErrorController {
      */
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<HttpResponse> IllegalStateException(IllegalStateException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage(), exception);
+    }
+
+    //NoSuchPaddingException, NoSuchAlgorithmException
+
+    @ExceptionHandler(NoSuchPaddingException.class)
+    public ResponseEntity<HttpResponse> NoSuchPaddingException(NoSuchPaddingException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage(), exception);
+    }
+
+    @ExceptionHandler(NoSuchAlgorithmException.class)
+    public ResponseEntity<HttpResponse> NoSuchAlgorithmException(NoSuchAlgorithmException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage(), exception);
+    }
+
+    //InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException
+    @ExceptionHandler(InvalidAlgorithmParameterException.class)
+    public ResponseEntity<HttpResponse> InvalidAlgorithmParameterException(InvalidAlgorithmParameterException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage(), exception);
+    }
+    @ExceptionHandler(IllegalBlockSizeException.class)
+    public ResponseEntity<HttpResponse> IllegalBlockSizeException(IllegalBlockSizeException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage(), exception);
+    }
+    @ExceptionHandler(BadPaddingException.class)
+    public ResponseEntity<HttpResponse> BadPaddingException(BadPaddingException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage(), exception);
+    }
+    @ExceptionHandler(InvalidKeyException.class)
+    public ResponseEntity<HttpResponse> InvalidKeyException(InvalidKeyException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage(), exception);
     }
 

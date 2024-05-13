@@ -6,12 +6,18 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+/**
+ * The type Security service.
+ */
 @Service
 @Slf4j
 public class SecurityServiceImpl implements ISecurityService {
 
     private final int STACK_TRACE_METHOD_INDEX = 1;
 
+    /**
+     * The Method name.
+     */
     String methodName;
 
     @Override
@@ -39,7 +45,7 @@ public class SecurityServiceImpl implements ISecurityService {
     }
 
     @Override
-    public String validateVerificationCode(String verificationCode) {
+    public String validateVerificationCode(String clientId,String verificationCode) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
@@ -60,6 +66,14 @@ public class SecurityServiceImpl implements ISecurityService {
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
         return "{\"methodName\":\"" + methodName + "\"}";
+    }
+
+    @Override
+    public String getPin(String clientId, String lastFourDigits) {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
+        log.info("Executing Method: "+methodName);
+        return  "{\"methodName\":\""+methodName+"\"}";
     }
 
     @Override
