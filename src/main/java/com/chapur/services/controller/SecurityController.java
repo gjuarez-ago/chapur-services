@@ -231,7 +231,7 @@ public class SecurityController {
     }
 
     @PostMapping(value="/decrypt", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String decrypt( @RequestBody DecryptDTO dto)
+    public String decrypt( @RequestBody CryptoDataRequest dto)
             throws IllegalStateException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
             IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 
@@ -240,7 +240,7 @@ public class SecurityController {
         log.info("Executing Method: "+methodName);
 
         IMDEndec cryptTool = new IMDEndec();
-        String decoded = cryptTool.decrypt(dto.getKeyword(),AES_KEY,AES_IV);
+        String decoded = cryptTool.decrypt(dto.getData(),AES_KEY,AES_IV);
         String jsonResponse = "{" +
                 "\"decoded\":\""+decoded+"\"}";
 
