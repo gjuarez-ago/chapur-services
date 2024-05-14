@@ -28,8 +28,6 @@ public class RefreshToken {
 
     private Instant expiryDate;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private UserInfo userInfo;
+    private int userInfo;
 
 }

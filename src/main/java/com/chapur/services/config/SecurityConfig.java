@@ -35,14 +35,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/api/signUp", "/api/login", "/api/refreshToken", "/swagger-ui/**",
+                        .requestMatchers("/api/signUp", "/api/login", "/api/enviar-post", "/api/refreshToken",
+                                "/swagger-ui/**",
                                 "/v3/api-docs/**",
-                                "/h2-console/**",
+                                "/h2-console/*",
                                 "/actuator/**",
-                                "/api/security/**",
-                                "/wallet/**")
+                                "/api/security/**")
                         .permitAll())
-                .authorizeHttpRequests(requests -> requests.requestMatchers("/walleet/**")
+                .authorizeHttpRequests(requests -> requests.requestMatchers("/wallet/**", "/api/all-tokens")
                         .authenticated())
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

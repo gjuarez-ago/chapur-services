@@ -54,7 +54,7 @@ public class WalletController {
      * @return un mensaje indicando el estatus
      * @since 1.0
      */
-    @GetMapping(value = "/get-all-services", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/get-all-services")
     public ResponseEntity<List<CreateServiceDTO>> getAllServicesApp() throws Exception {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
     }
@@ -96,9 +96,9 @@ public class WalletController {
      * @return mensaje indicando el estatus
      * @throws GenericException the generic exception
      */
-    @PutMapping(value= "/update-product-type/{productTypeId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/update-product-type/{productTypeId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpResponse> updateProductTypeWeb(@PathVariable("productTypeId") Integer productTypeId,
-             @RequestBody ProductTypeDTO productType) throws GenericException {
+            @RequestBody ProductTypeDTO productType) throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
@@ -141,7 +141,7 @@ public class WalletController {
      * @return mensaje indicando el estatus del proceso
      * @throws GenericException the generic exception
      */
-    @PostMapping(value= "/add-product/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/add-product/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpResponse> addProductWeb(@RequestBody ProductDTO product) throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -157,9 +157,9 @@ public class WalletController {
      * @return mensaje indicando el estatus del proceso
      * @throws GenericException the generic exception
      */
-    @PutMapping(value= "/update-product/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/update-product/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpResponse> updateProductWeb(@PathVariable("productId") Integer productId,
-             @RequestBody ProductDTO product) throws GenericException {
+            @RequestBody ProductDTO product) throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
@@ -174,7 +174,8 @@ public class WalletController {
      * @throws GenericException the generic exception
      */
     @DeleteMapping(value = "/delete-product/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpResponse> deleteProductWeb(@PathVariable("productId") Integer productId) throws GenericException {
+    public ResponseEntity<HttpResponse> deleteProductWeb(@PathVariable("productId") Integer productId)
+            throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
@@ -203,7 +204,8 @@ public class WalletController {
      * @throws GenericException the generic exception
      */
     @GetMapping(value = "/products-list/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ProductDTO>> getProductsListApp(@PathVariable("clientId") Integer clientId) throws GenericException {
+    public ResponseEntity<List<ProductDTO>> getProductsListApp(@PathVariable("clientId") Integer clientId)
+            throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
@@ -239,7 +241,7 @@ public class WalletController {
      */
     @GetMapping(value = "/product-identity/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductIdentityResponse getProductIdentityApp(@RequestBody Integer clientId,
-             @RequestBody Integer productId, @RequestBody String productType) throws GenericException {
+            @RequestBody Integer productId, @RequestBody String productType) throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
