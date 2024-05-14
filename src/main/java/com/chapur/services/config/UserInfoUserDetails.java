@@ -1,15 +1,9 @@
 package com.chapur.services.config;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import com.chapur.services.entity.UserInfo;
 
 public class UserInfoUserDetails implements UserDetails {
@@ -21,7 +15,6 @@ public class UserInfoUserDetails implements UserDetails {
 
     private String name;
     private String password;
-    private List<GrantedAuthority> authorities;
 
     public UserInfoUserDetails(UserInfo userInfo) {
         name = userInfo.getName();

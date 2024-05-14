@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.chapur.services.entity.UserInfo;
+import com.chapur.services.exception.GenericException;
 import com.chapur.services.models.LoginResponse;
 import com.chapur.services.models.UserCredentials;
 import com.chapur.services.repository.UserInfoRepository;
@@ -40,7 +41,8 @@ public class AuthServiceServiceImpl implements IAuthService {
     }
 
     @Override
-    public LoginResponse login2(String url, UserCredentials userCredentials) throws IOException, ParseException {
+    public LoginResponse login(String url, UserCredentials userCredentials)
+            throws IOException, ParseException, GenericException {
 
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
@@ -61,6 +63,10 @@ public class AuthServiceServiceImpl implements IAuthService {
 
         System.out.println("Estatus: " + response.getCode());
         System.out.println("Resultado: " + apiResponse.getResultado());
+
+        if (apiResponse.getEstatus() == 0) {
+            throw new GenericException(apiResponse.getResultado());
+        }
 
         return apiResponse;
 
