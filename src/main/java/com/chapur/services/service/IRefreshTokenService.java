@@ -6,11 +6,12 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.chapur.services.entity.RefreshToken;
+import com.chapur.services.models.LoginComplementResponse;
 
 @Component
 public interface IRefreshTokenService {
 
-    public RefreshToken createRefreshToken(String username);
+    public RefreshToken createRefreshToken(LoginComplementResponse datos);
 
     public List<RefreshToken> getAllTokens();
 
