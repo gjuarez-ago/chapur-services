@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/**
- * The interface Wallet service.
- */
 @Component
 public interface IWalletService {
     /**

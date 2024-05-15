@@ -5,102 +5,30 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 
 
-/**
- * The interface Security service.
- */
 @Component
 public interface ISecurityService {
 
-    /**
-     * Gets client beneficiaries.
-     *
-     * @param clientId the client id
-     * @return the client beneficiaries
-     */
-    String getClientBeneficiaries(String clientId);
+    String getClientBeneficiaries(String clientId) throws URISyntaxException, IOException;
 
-    /**
-     * Generate verification code string.
-     *
-     * @param clientId the client id
-     * @return the string
-     */
-    String generateVerificationCode(String clientId) ;
+    String generateVerificationCode(String clientId)throws URISyntaxException, IOException;
 
-    /**
-     * Send message string.
-     *
-     * @param clientId       the client id
-     * @param contactMethod  the contact method
-     * @param messageType    the message type
-     * @param messageContent the message content
-     * @return the string
-     */
-    String sendMessage(String clientId, String contactMethod, String messageType, String messageContent);
+    String sendMessage(String clientId, String contactMethod, String messageType, String messageContent) throws URISyntaxException, IOException;
 
-    /**
-     * Validate verification code string.
-     *
-     * @param clientId         the client id
-     * @param verificationCode the verification code
-     * @return the string
-     */
-    String validateVerificationCode(String clientId,String verificationCode);
+    String validateVerificationCode(String clientId,String verificationCode)throws URISyntaxException, IOException;
 
-    /**
-     * Assign pin string.
-     *
-     * @param pin      the pin
-     * @param clientId the client id
-     * @param cardId   the card id
-     * @return the string
-     */
-    String assignPin(String pin, String clientId, String cardId) ;
+    String assignPin(String pin, String clientId, String cardId)throws URISyntaxException, IOException;
 
-    /**
-     * Validate pin string.
-     *
-     * @param pin      the pin
-     * @param clientId the client id
-     * @param cardId   the card id
-     * @return the string
-     */
-    String validatePin(String pin, String clientId, String cardId);
+    String validatePin(String pin, String clientId, String cardId) throws URISyntaxException, IOException;
 
-    /**
-     * Gets pin.
-     *
-     * @param clientId       the client id
-     * @param lastFourDigits the last four digits
-     * @return the pin
-     */
-    String getPin(String clientId, String lastFourDigits) ;
+    String getPin(String clientId, String lastFourDigits) throws URISyntaxException, IOException;
 
-    /**
-     * Edit pin string.
-     *
-     * @param newPin   the new pin
-     * @param clientId the client id
-     * @param cardId   the card id
-     * @return the string
-     */
-    String editPin(String newPin, String clientId, String cardId);
+    String editPin(String newPin, String clientId, String cardId)throws URISyntaxException, IOException;
 
-    /**
-     * Add pin log string.
-     *
-     * @param clientId     the client id
-     * @param cardId       the card id
-     * @param movementType the movement type
-     * @param date         the date
-     * @param user         the user
-     * @param source       the source
-     * @return the string
-     */
-    String addPinLog(String clientId, String cardId, String movementType, LocalDateTime date, String user, String source);
+    String addPinLog(String clientId, String cardId, String movementType, LocalDateTime date, String user, String source) throws URISyntaxException, IOException;
 
 
 
