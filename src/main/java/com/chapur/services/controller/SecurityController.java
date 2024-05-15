@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -45,7 +47,7 @@ public class SecurityController {
      */
     @GetMapping(value = "/client-beneficiaries/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getClientBeneficiaries(@PathVariable("clientId") String clientId)
-            throws IllegalStateException {
+            throws IllegalStateException, URISyntaxException, IOException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -63,7 +65,7 @@ public class SecurityController {
      */
     @PostMapping(value = "/generate-verification-code/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String generateVerificationCode(@PathVariable("clientId") String clientId)
-            throws IllegalStateException {
+            throws IllegalStateException, URISyntaxException, IOException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -81,8 +83,8 @@ public class SecurityController {
      */
     @PostMapping(value = "/send-message/{clientId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String sendMessage(@PathVariable("clientId") String clientId,
-            @Validated @RequestBody SendMessageRequest reqBody)
-            throws IllegalStateException {
+                              @Validated @RequestBody SendMessageRequest reqBody)
+            throws IllegalStateException, URISyntaxException, IOException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -100,7 +102,7 @@ public class SecurityController {
      */
     @PostMapping(value = "/validate-verification-code", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String validateVerificationCode(@Validated @RequestBody ValidateVerificationCodeRequest reqBody)
-            throws IllegalStateException {
+            throws IllegalStateException, URISyntaxException, IOException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -117,7 +119,7 @@ public class SecurityController {
      */
     @PostMapping(value = "/assign-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String assignPin(@Validated @RequestBody PinFormRequest reqBody)
-            throws IllegalStateException {
+            throws IllegalStateException, URISyntaxException, IOException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -134,7 +136,7 @@ public class SecurityController {
      */
     @PostMapping(value = "/validate-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String validatePin(@Validated @RequestBody PinFormRequest reqBody)
-            throws IllegalStateException {
+            throws IllegalStateException, URISyntaxException, IOException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -150,10 +152,9 @@ public class SecurityController {
      * @return the pin
      * @throws IllegalStateException the illegal state exception
      */
-    @GetMapping(value = "/get-pin/{clientId}/{lastFourDigits}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getPin(@PathVariable("clientId") String clientId,
-            @PathVariable("lastFourDigits") String lastFourDigits)
-            throws IllegalStateException {
+    @GetMapping(value="/get-pin/{clientId}/{lastFourDigits}",  produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getPin(@PathVariable("clientId")String clientId,@PathVariable("lastFourDigits")String lastFourDigits )
+            throws IllegalStateException, URISyntaxException, IOException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
         log.info("Executing Method: " + methodName);
@@ -169,7 +170,7 @@ public class SecurityController {
      */
     @PutMapping(value = "/edit-pin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String editPin(@Validated @RequestBody PinFormRequest reqBody)
-            throws IllegalStateException {
+            throws IllegalStateException, URISyntaxException, IOException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -186,7 +187,7 @@ public class SecurityController {
      */
     @PostMapping(value = "/add-pin-log", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String addPinLog(@Validated @RequestBody PinLogRequest reqBody)
-            throws IllegalStateException {
+            throws IllegalStateException, URISyntaxException, IOException {
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();

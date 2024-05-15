@@ -22,6 +22,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -192,6 +193,12 @@ public class ExceptionHandling implements ErrorController {
     }
     @ExceptionHandler(InvalidKeyException.class)
     public ResponseEntity<HttpResponse> InvalidKeyException(InvalidKeyException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage(), exception);
+    }
+
+
+    @ExceptionHandler(URISyntaxException.class)
+    public ResponseEntity<HttpResponse> URISyntaxException(URISyntaxException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage(), exception);
     }
 
