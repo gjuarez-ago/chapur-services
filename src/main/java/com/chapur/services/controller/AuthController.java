@@ -48,10 +48,10 @@ public class AuthController {
 		String url = "http://10.2.91.67:8090/servicios-rest-dev7/usuario/valida_login";
 
 		LoginResponse response = service.login(url, userCredentials);
+
 		JwtResponse s = JwtResponse.builder()
 				.accessToken(jwtService.generateToken(response.getDatos().getEmail()))
-				.token(UUID.randomUUID().toString()).build();
-		refreshTokenService.createRefreshToken(response.getDatos());
+				.token(refreshTokenService.createRefreshToken(response.getDatos()).getToken()).build();
 		return new ResponseEntity<>(s, HttpStatus.OK);
 	}
 

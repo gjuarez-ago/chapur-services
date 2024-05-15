@@ -11,7 +11,7 @@ import com.chapur.services.models.LoginComplementResponse;
 @Component
 public interface IRefreshTokenService {
 
-    public RefreshToken createRefreshToken(LoginComplementResponse user);
+    public RefreshToken createRefreshToken(LoginComplementResponse datos);
 
     public List<RefreshToken> getAllTokens();
 

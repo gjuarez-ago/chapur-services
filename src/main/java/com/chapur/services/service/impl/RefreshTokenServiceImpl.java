@@ -24,7 +24,6 @@ public class RefreshTokenServiceImpl implements IRefreshTokenService {
     private UserInfoRepository userInfoRepository;
 
     public RefreshToken createRefreshToken(LoginComplementResponse user) {
-
         RefreshToken refreshToken = RefreshToken.builder()
                 .userInfo(user.getNumiden())
                 .token(UUID.randomUUID().toString())
@@ -42,8 +41,12 @@ public class RefreshTokenServiceImpl implements IRefreshTokenService {
     }
 
     public RefreshToken verifyExpiration(RefreshToken token) {
+
         if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
+
             refreshTokenRepository.delete(token);
+            // refreshTokenRepository.findByToken(token.getToken());
+
             throw new RuntimeException(
                     token.getToken() + " Refresh token was expired. Please make a new signin request");
         }
