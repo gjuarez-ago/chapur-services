@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.chapur.services.entity.RefreshToken;
+import com.chapur.services.exception.GenericException;
 import com.chapur.services.models.LoginComplementResponse;
 import com.chapur.services.repository.RefreshTokenRepository;
 import com.chapur.services.repository.UserInfoRepository;
@@ -23,9 +24,9 @@ public class RefreshTokenServiceImpl implements IRefreshTokenService {
     @Autowired
     private UserInfoRepository userInfoRepository;
 
-    public RefreshToken createRefreshToken(LoginComplementResponse user) {
+    public RefreshToken createRefreshToken(int userId) {
         RefreshToken refreshToken = RefreshToken.builder()
-                .userInfo(user.getNumiden())
+                .userInfo(userId)
                 .token(UUID.randomUUID().toString())
                 .expiryDate(Instant.now().plusMillis(600000))// 10
                 .build();
@@ -40,17 +41,19 @@ public class RefreshTokenServiceImpl implements IRefreshTokenService {
         return refreshTokenRepository.findByToken(token);
     }
 
-    public RefreshToken verifyExpiration(RefreshToken token) {
+    public void verifyExpiration(String token) throws GenericException {
 
-        if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
+        Optional<RefreshToken> entity = Optional.ofNullable(refreshTokenRepository.findByToken(token)
+                .orElseThrow(() -> new GenericException("Refresh token is not in database!")));
 
-            refreshTokenRepository.delete(token);
+        if (entity.get().getExpiryDate().compareTo(Instant.now()) < 0) {
+
+            refreshTokenRepository.deleteByToken(token);
             // refreshTokenRepository.findByToken(token.getToken());
 
             throw new RuntimeException(
-                    token.getToken() + " Refresh token was expired. Please make a new signin request");
+                    token + " Refresh token was expired. Please make a new signin request");
         }
-        return token;
     }
 
 }

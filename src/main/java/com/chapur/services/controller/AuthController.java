@@ -2,6 +2,7 @@ package com.chapur.services.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.hc.core5.http.ParseException;
@@ -19,7 +20,9 @@ import com.chapur.services.entity.RefreshToken;
 import com.chapur.services.exception.GenericException;
 import com.chapur.services.models.JwtResponse;
 import com.chapur.services.models.LoginResponse;
+import com.chapur.services.models.RefreshTokenDTO;
 import com.chapur.services.models.RefreshTokenRequest;
+import com.chapur.services.models.RefreshTokenResponse;
 import com.chapur.services.models.UserCredentials;
 import com.chapur.services.service.IAuthService;
 import com.chapur.services.service.IRefreshTokenService;
@@ -41,19 +44,21 @@ public class AuthController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	@PostMapping("/login")
-	public ResponseEntity<JwtResponse> enviarPost(@RequestBody UserCredentials userCredentials)
-			throws ParseException, IOException, GenericException {
+	// @PostMapping("/login")
+	// public ResponseEntity<JwtResponse> enviarPost(@RequestBody UserCredentials
+	// userCredentials)
+	// throws ParseException, IOException, GenericException {
 
-		String url = "http://10.2.91.67:8090/servicios-rest-dev7/usuario/valida_login";
+	// String url =
+	// "http://10.2.91.67:8090/servicios-rest-dev7/usuario/valida_login";
 
-		LoginResponse response = service.login(url, userCredentials);
+	// LoginResponse response = service.login(url, userCredentials);
 
-		JwtResponse s = JwtResponse.builder()
-				.accessToken(jwtService.generateToken(response.getDatos().getEmail()))
-				.token(refreshTokenService.createRefreshToken(response.getDatos()).getToken()).build();
-		return new ResponseEntity<>(s, HttpStatus.OK);
-	}
+	// JwtResponse s = JwtResponse.builder()
+	// .accessToken(jwtService.generateToken(response.getDatos().getEmail()))
+	// .token(refreshTokenService.createRefreshToken(response.getDatos()).getToken()).build();
+	// return new ResponseEntity<>(s, HttpStatus.OK);
+	// }
 
 	@GetMapping("/all-tokens")
 	public List<RefreshToken> getAllTokens() {
@@ -77,19 +82,59 @@ public class AuthController {
 	// }
 	// }
 
+	// @PostMapping("/refreshToken")
+	// public JwtResponse refreshToken(@RequestBody RefreshTokenRequest
+	// refreshTokenRequest) {
+	// return refreshTokenService.findByToken(refreshTokenRequest.getToken())
+	// .map(refreshTokenService::verifyExpiration)
+	// .map(RefreshToken::getUserInfo)
+	// .map(userInfo -> {
+	// String accessToken = jwtService.generateToken("string");
+	// return JwtResponse.builder()
+	// .accessToken(accessToken)
+	// .token(refreshTokenRequest.getToken())
+	// .build();
+	// }).orElseThrow(() -> new RuntimeException(
+	// "Refresh token is not in database!"));
+	// }
+
+	@PostMapping("/login")
+	public ResponseEntity<LoginResponse> login2(@RequestBody UserCredentials userCredentials)
+			throws ParseException, IOException, GenericException {
+
+		String url = "http://10.2.91.22:8080/WSRF.PCCRE_DEV/WS/Servicio/Rest/WS/App/Servicio/Login";
+		LoginResponse response = service.loginV2(url, userCredentials);
+
+		if (response.getEstatus() == 0) {
+			throw new GenericException(response.getResultado());
+		}
+
+		JwtResponse s = JwtResponse.builder()
+				.accessToken(jwtService.generateToken(response.getDatos().getEmail()))
+				.token(refreshTokenService.createRefreshToken(response.getDatos().getNumiden()).getToken()).build();
+
+		response.setTokenSpring(s.getAccessToken());
+		response.setRefreshTokenSpring(s.getToken());
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
 	@PostMapping("/refreshToken")
-	public JwtResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-		return refreshTokenService.findByToken(refreshTokenRequest.getToken())
-				.map(refreshTokenService::verifyExpiration)
-				.map(RefreshToken::getUserInfo)
-				.map(userInfo -> {
-					String accessToken = jwtService.generateToken("string");
-					return JwtResponse.builder()
-							.accessToken(accessToken)
-							.token(refreshTokenRequest.getToken())
-							.build();
-				}).orElseThrow(() -> new RuntimeException(
-						"Refresh token is not in database!"));
+	public ResponseEntity<RefreshTokenResponse> refreshToken(@RequestBody RefreshTokenDTO refreshTokenRequest)
+			throws ParseException, IOException, GenericException {
+
+		RefreshTokenResponse response = service.refreshToken(refreshTokenRequest);
+		refreshTokenService.verifyExpiration(refreshTokenRequest.getTokenSpring());
+
+		JwtResponse s = JwtResponse.builder()
+				.accessToken(jwtService.generateToken(refreshTokenRequest.getEmail()))
+				.token(refreshTokenService.createRefreshToken(refreshTokenRequest.getUserId()).getToken()).build();
+
+		response.setTokenSpring(s.getAccessToken());
+		response.setRefreshTokenSpring(s.getToken());
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
+
 	}
 
 }

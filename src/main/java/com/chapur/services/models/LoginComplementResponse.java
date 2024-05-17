@@ -23,6 +23,7 @@ public class LoginComplementResponse {
     @JsonProperty("fecha_alta")
     private String fechaAlta;
 
+    @JsonProperty(value = "email")
     private String email;
 
     private String telefono;

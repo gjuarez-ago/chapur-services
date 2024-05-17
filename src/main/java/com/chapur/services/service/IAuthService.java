@@ -6,15 +6,23 @@ import org.springframework.stereotype.Component;
 import com.chapur.services.entity.UserInfo;
 import com.chapur.services.exception.GenericException;
 import com.chapur.services.models.LoginResponse;
+import com.chapur.services.models.RefreshTokenDTO;
+import com.chapur.services.models.RefreshTokenResponse;
 import com.chapur.services.models.UserCredentials;
 import org.apache.hc.core5.http.ParseException;
 
 @Component
 public interface IAuthService {
 
-    String addUser(UserInfo userInfo);
+        String addUser(UserInfo userInfo);
 
-    LoginResponse login(String url, UserCredentials userCredentials)
-            throws IOException, ParseException, GenericException;
+        LoginResponse login(String url, UserCredentials userCredentials)
+                        throws IOException, ParseException, GenericException;
+
+        LoginResponse loginV2(String url, UserCredentials userCredentials)
+                        throws IOException, ParseException, GenericException;
+
+        RefreshTokenResponse refreshToken(RefreshTokenDTO userCredentials)
+                        throws IOException, ParseException, GenericException;
 
 }
