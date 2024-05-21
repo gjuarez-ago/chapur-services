@@ -40,9 +40,10 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/h2-console/*",
                                 "/actuator/**",
+                                "/wallet/**",
                                 "/api/security/**")
                         .permitAll())
-                .authorizeHttpRequests(requests -> requests.requestMatchers("/wallet/**", "/api/all-tokens")
+                .authorizeHttpRequests(requests -> requests.requestMatchers("/api/all-tokens")
                         .authenticated())
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

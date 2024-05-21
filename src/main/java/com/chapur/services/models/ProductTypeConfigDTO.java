@@ -13,63 +13,64 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ProductTypeConfigDTO {
+
     /**
      * Show product name or not.
      */
-    @JsonProperty ("showProductName")
+    @JsonProperty("showProductName")
     Boolean showProductName;
 
     /**
      * Show image or not.
      */
-    @JsonProperty ("showImage")
+    @JsonProperty("showImage")
     Boolean showImage;
 
     /**
      * Show color or not.
      */
-    @JsonProperty ("showColor")
+    @JsonProperty("showColor")
     Boolean showColor;
 
     /**
      * Show folio or not.
      */
-    @JsonProperty ("showFolio")
+    @JsonProperty("showFolio")
     Boolean showFolio;
 
     /**
      * Show balance or not.
      */
-    @JsonProperty ("showBalance")
+    @JsonProperty("showBalance")
     Boolean showBalance;
 
     /**
      * Show code or not.
      */
-    @JsonProperty ("showCode")
+    @JsonProperty("showCode")
     Boolean showCode;
 
     /**
      * Show count down timer or not.
      */
-    @JsonProperty ("showCountDownTimer")
+    @JsonProperty("showCountDownTimer")
     Boolean showCountDownTimer;
 
     /**
      * Show resume account or not.
      */
-    @JsonProperty ("showResumeAccount")
+    @JsonProperty("showResumeAccount")
     Boolean showResumeAccount;
 
     /**
      * ShowVigency or not.
      */
-    @JsonProperty ("showVigency")
+    @JsonProperty("showVigency")
     Boolean showVigency;
 
     /**
      * Show movement or not.
      */
-    @JsonProperty ("showMovement")
+    @JsonProperty("showMovement")
     Boolean showMovement;
 }

@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class ProductDTO {
+
     /**
      * The Product id.
      */
@@ -120,6 +121,3 @@ public class ProductDTO {
     List<ProductMovementsResponse> movements;
 
 }
-
-
-

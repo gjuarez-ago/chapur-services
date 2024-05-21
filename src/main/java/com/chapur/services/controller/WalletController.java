@@ -141,7 +141,7 @@ public class WalletController {
      * @return mensaje indicando el estatus del proceso
      * @throws GenericException the generic exception
      */
-    @PostMapping(value = "/add-product/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/add-product", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpResponse> addProductWeb(@RequestBody ProductDTO product) throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();
@@ -188,7 +188,7 @@ public class WalletController {
      * @return Lista con todos los tipos de productos
      * @throws GenericException the generic exception
      */
-    @GetMapping(value = "/list-all-products/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/list-all-products", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ProductDTO>> getAllProductsWeb() throws GenericException {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         methodName = stackTrace[STACK_TRACE_METHOD_INDEX].getMethodName();

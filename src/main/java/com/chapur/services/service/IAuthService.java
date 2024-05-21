@@ -16,10 +16,7 @@ public interface IAuthService {
 
         String addUser(UserInfo userInfo);
 
-        LoginResponse login(String url, UserCredentials userCredentials)
-                        throws IOException, ParseException, GenericException;
-
-        LoginResponse loginV2(String url, UserCredentials userCredentials)
+        LoginResponse login(UserCredentials userCredentials)
                         throws IOException, ParseException, GenericException;
 
         RefreshTokenResponse refreshToken(RefreshTokenDTO userCredentials)

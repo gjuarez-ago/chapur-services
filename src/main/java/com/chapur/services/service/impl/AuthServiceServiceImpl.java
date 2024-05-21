@@ -42,39 +42,7 @@ public class AuthServiceServiceImpl implements IAuthService {
         }
 
         @Override
-        public LoginResponse login(String url, UserCredentials userCredentials)
-                        throws IOException, ParseException, GenericException {
-
-                CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpPost httpPost = new HttpPost(url);
-
-                // Convertir el objeto a JSON
-                ObjectMapper objectMapper = new ObjectMapper();
-                String json = objectMapper.writeValueAsString(userCredentials);
-
-                // Establecer el cuerpo de la solicitud
-                httpPost.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
-
-                CloseableHttpResponse response = httpclient.execute(httpPost);
-
-                HttpEntity entity = response.getEntity();
-                String jsonResponse = EntityUtils.toString(entity);
-                LoginResponse apiResponse = objectMapper.readValue(jsonResponse,
-                                LoginResponse.class);
-
-                System.out.println("Estatus: " + response.getCode());
-                System.out.println("Resultado: " + apiResponse.getResultado());
-
-                if (apiResponse.getEstatus() == 0) {
-                        throw new GenericException(apiResponse.getResultado());
-                }
-
-                return apiResponse;
-
-        }
-
-        @Override
-        public LoginResponse loginV2(String url, UserCredentials userCredentials)
+        public LoginResponse login(UserCredentials userCredentials)
                         throws IOException, ParseException, GenericException {
 
                 String urlD = "http://10.2.91.22:8080/WSRF.PCCRE_DEV/WS/Servicio/Rest/WS/App/Servicio/Login";
